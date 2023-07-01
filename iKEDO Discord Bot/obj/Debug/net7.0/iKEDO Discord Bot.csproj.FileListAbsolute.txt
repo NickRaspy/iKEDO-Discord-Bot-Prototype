@@ -1,0 +1,56 @@
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\iKEDO Discord Bot.exe
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\iKEDO Discord Bot.deps.json
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\iKEDO Discord Bot.runtimeconfig.json
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\iKEDO Discord Bot.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\iKEDO Discord Bot.pdb
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\Discord.Net.Commands.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\Discord.Net.Core.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\Discord.Net.Interactions.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\Discord.Net.Rest.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\Discord.Net.Webhook.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\Discord.Net.WebSocket.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\System.Interactive.Async.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\System.Linq.Async.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\bin\Debug\net7.0\System.Reactive.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.csproj.AssemblyReference.cache
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.AssemblyInfoInputs.cache
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.AssemblyInfo.cs
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.csproj.CoreCompileInputs.cache
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.csproj.CopyComplete
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\obj\Debug\net7.0\refint\iKEDO Discord Bot.dll
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.pdb
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.genruntimeconfig.cache
+C:\Users\nikit\source\repos\iKEDO Discord Bot\iKEDO Discord Bot\obj\Debug\net7.0\ref\iKEDO Discord Bot.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\iKEDO Discord Bot.exe
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\iKEDO Discord Bot.deps.json
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\iKEDO Discord Bot.runtimeconfig.json
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\iKEDO Discord Bot.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\iKEDO Discord Bot.pdb
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\Discord.Net.Commands.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\Discord.Net.Core.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\Discord.Net.Interactions.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\Discord.Net.Rest.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\Discord.Net.Webhook.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\Discord.Net.WebSocket.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\System.Interactive.Async.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\System.Linq.Async.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\bin\Debug\net7.0\System.Reactive.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.csproj.AssemblyReference.cache
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.AssemblyInfoInputs.cache
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.AssemblyInfo.cs
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.csproj.CoreCompileInputs.cache
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.csproj.CopyComplete
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\obj\Debug\net7.0\refint\iKEDO Discord Bot.dll
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.pdb
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\obj\Debug\net7.0\iKEDO Discord Bot.genruntimeconfig.cache
+C:\Users\nikit\source\repos\iKEDO-Discord-Bot-Prototype\iKEDO Discord Bot\obj\Debug\net7.0\ref\iKEDO Discord Bot.dll

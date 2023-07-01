@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "dgSpecHash": "shWJKNKcYYtbq79Jvj4SMWCtbcM+jgrxU83YtTlHCFhu3puYHvveafIAAzpsGcusUxLNj1SlFrzGyaMhQ04JRA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\nikit\\source\\repos\\iKEDO-Discord-Bot-Prototype\\iKEDO Discord Bot\\iKEDO Discord Bot.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\nikit\\.nuget\\packages\\discord.net\\3.10.0\\discord.net.3.10.0.nupkg.sha512",
+    "C:\\Users\\nikit\\.nuget\\packages\\discord.net.commands\\3.10.0\\discord.net.commands.3.10.0.nupkg.sha512",
+    "C:\\Users\\nikit\\.nuget\\packages\\discord.net.core\\3.10.0\\discord.net.core.3.10.0.nupkg.sha512",
+    "C:\\Users\\nikit\\.nuget\\packages\\discord.net.interactions\\3.10.0\\discord.net.interactions.3.10.0.nupkg.sha512",
+    "C:\\Users\\nikit\\.nuget\\packages\\discord.net.rest\\3.10.0\\discord.net.rest.3.10.0.nupkg.sha512",
+    "C:\\Users\\nikit\\.nuget\\packages\\discord.net.webhook\\3.10.0\\discord.net.webhook.3.10.0.nupkg.sha512",
+    "C:\\Users\\nikit\\.nuget\\packages\\discord.net.websocket\\3.10.0\\discord.net.websocket.3.10.0.nupkg.sha512",
+    "C:\\Users\\nikit\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
+    "C:\\Users\\nikit\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\nikit\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
+    "C:\\Users\\nikit\\.nuget\\packages\\system.collections.immutable\\5.0.0\\system.collections.immutable.5.0.0.nupkg.sha512",
+    "C:\\Users\\nikit\\.nuget\\packages\\system.interactive.async\\5.0.0\\system.interactive.async.5.0.0.nupkg.sha512",
+    "C:\\Users\\nikit\\.nuget\\packages\\system.linq.async\\5.0.0\\system.linq.async.5.0.0.nupkg.sha512",
+    "C:\\Users\\nikit\\.nuget\\packages\\system.reactive\\5.0.0\\system.reactive.5.0.0.nupkg.sha512",
+    "C:\\Users\\nikit\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
