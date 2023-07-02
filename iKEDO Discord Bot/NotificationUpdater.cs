@@ -41,38 +41,40 @@ public class NotificationUpdater
                 //поиск зарегистрированного пользователя по номеру телефона
                 if (_ulclient.UserDatas.Contains(_ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber)))
                 {
-                    ulong userID = _ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber).UserID;
-                    //попытка отправить пользователю сообщение
-                    try
+                    if(_ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber).GetNotificationPing)
                     {
-                        //связь с пользователем дискорда
-                        IUser user = await _client.GetUserAsync(userID);
-                        //эмбед-уведомление
-                        var embedBuilder = new EmbedBuilder()
-                            .WithAuthor("iКЭДО")
-                            .WithTitle("Вы получили уведомление!")
-                            .WithDescription($"{ldn.DocumentType}")
-                            .WithColor(Color.Blue)
-                            .WithCurrentTimestamp();
-                        //отправка уведомления
-                        await user.SendMessageAsync(embed: embedBuilder.Build());
-                        //проверка на отсутствие документа
-                        if(_ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber).Docs.Find(x => x.Id == ldn.DocumentID) == null)
+                        ulong userID = _ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber).UserID;
+                        //попытка отправить пользователю сообщение
+                        try
                         {
-                            await _ulclient.AddDocument(kuser.Contacts[0].PhoneNumber, docs);
+                            //связь с пользователем дискорда
+                            IUser user = await _client.GetUserAsync(userID);
+                            //эмбед-уведомление
+                            var embedBuilder = new EmbedBuilder()
+                                .WithAuthor("iКЭДО")
+                                .WithTitle("Вы получили уведомление!")
+                                .WithDescription($"{ldn.DocumentType}")
+                                .WithColor(Color.Blue)
+                                .WithCurrentTimestamp();
+                            //отправка уведомления
+                            await user.SendMessageAsync(embed: embedBuilder.Build());
                         }
-                        //если документ будет обнаружен - сменится его состояние
-                        else
+                        //если с пользователем нет связи, в консоль придет сообщение ниже
+                        catch (HttpException)
                         {
-                           _ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber).Docs.Find(x => x.Id == ldn.DocumentID).DocumentType = ldn.DocumentType;
+                            Console.WriteLine($"Пользователю с ID {userID} невозможно отправить уведомление");
                         }
                     }
-                    //если с пользователем нет связи, в консоль придет сообщение ниже
-                    catch (HttpException)
+                    //проверка на отсутствие документа
+                    if (_ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber).Docs.Find(x => x.Id == ldn.DocumentID) == null)
                     {
-                        Console.WriteLine($"Пользователю с ID {userID} невозможно отправить уведомление");
+                        await _ulclient.AddDocument(kuser.Contacts[0].PhoneNumber, docs);
                     }
-
+                    //если документ будет обнаружен - сменится его состояние
+                    else
+                    {
+                        _ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber).Docs.Find(x => x.Id == ldn.DocumentID).DocumentType = ldn.DocumentType;
+                    }
                 }
             }
         }

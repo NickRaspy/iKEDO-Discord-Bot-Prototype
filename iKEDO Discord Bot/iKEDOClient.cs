@@ -4,7 +4,6 @@ using System.Net.Http.Headers;
 public class iKEDOClient
 {
     private readonly HttpClient _httpClient;
-    public int statusCode;
     public List<SystemEvents> events;
     public iKEDOClient()
     {

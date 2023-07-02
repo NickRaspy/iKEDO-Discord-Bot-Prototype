@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "shWJKNKcYYtbq79Jvj4SMWCtbcM+jgrxU83YtTlHCFhu3puYHvveafIAAzpsGcusUxLNj1SlFrzGyaMhQ04JRA==",
+  "dgSpecHash": "RX1wlksmfLl2ggG4c9WAyM3gb9EdVl5DZUs+w6Xc7iOpVaA6XwhINvLV9fDRV2VBsjJUNnCkiJIyodmikgCBuw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\nikit\\source\\repos\\iKEDO-Discord-Bot-Prototype\\iKEDO Discord Bot\\iKEDO Discord Bot.csproj",
+  "projectFilePath": "C:\\Users\\nikit\\source\\repos\\iKEDO Discord Bot\\iKEDO-Discord-Bot-Prototype\\iKEDO Discord Bot\\iKEDO Discord Bot.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nikit\\.nuget\\packages\\discord.net\\3.10.0\\discord.net.3.10.0.nupkg.sha512",
     "C:\\Users\\nikit\\.nuget\\packages\\discord.net.commands\\3.10.0\\discord.net.commands.3.10.0.nupkg.sha512",

@@ -35,17 +35,29 @@ public class Program
         var client = _services.GetRequiredService<DiscordSocketClient>();
         var kedoClient = _services.GetRequiredService<iKEDOClient>();
         var notificationUpdater = _services.GetRequiredService<NotificationUpdater>();
+        var slashHandler = _services.GetRequiredService<SlashCommandHandler>();
         //проверка подключения
         try
         {
             await kedoClient.TestConnection();
         }
-        catch (HttpRequestException)
+        catch (HttpRequestException hpe)
         {
-            Console.WriteLine($"Обнаружена ошибка при подключении к серверу:{kedoClient.statusCode}");
+            Console.WriteLine($"Обнаружена ошибка при подключении к серверу:{hpe.StatusCode}");
+            switch (hpe.StatusCode)
+            {
+                case System.Net.HttpStatusCode.Unauthorized:
+                    Console.WriteLine("Судя по данной ошибке, ваш токен либо просрочен, либо записан неправильно. Попробуйте удалить или редактировать файл tokens и запустить программу заново.");
+                    break;
+                case System.Net.HttpStatusCode.Forbidden:
+                    Console.WriteLine("У вас нет доступа к данным. Скорее всего, ваш токен не подходит для получения этих данных. Токен можно заменить, удалив или отредактировав файл tokens");
+                    break;
+                case System.Net.HttpStatusCode.NotFound:
+                    Console.WriteLine("Сервис на данный момент откючен. Попробуйте запустить бота позднее.");
+                    break;
+            }
             Environment.Exit(0);
         }
-        var slashHandler = _services.GetRequiredService<SlashCommandHandler>();
         //логи подключения
         client.Log += async (msg) =>
         {
@@ -55,7 +67,7 @@ public class Program
         //запуск задач после окончательной подготовки бота, таких как билдинг слеш комманд и рекурсивная проверка и высылка уведомлений
         client.Ready += slashHandler.Slash_Ready;
         client.Ready += notificationUpdater.UpdateNotification;
-        //установка эксекуторов, выполняющий слеш и меню комманды
+        //установка исполнителей, выполняющий слеш и меню комманды
         client.SelectMenuExecuted += slashHandler.MenuOptionExecute;
         client.SlashCommandExecuted += slashHandler.SlashCommandExecute;
         //подключение к боту дискорда

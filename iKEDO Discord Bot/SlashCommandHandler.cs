@@ -25,6 +25,9 @@ public class SlashCommandHandler
         List<SlashCommandBuilder> globalCommands = new List<SlashCommandBuilder>()
         {
             new SlashCommandBuilder()
+            .WithName("help")
+            .WithDescription("Получить список доступных команд бота"),
+            new SlashCommandBuilder()
             .WithName("last-notification")
             .WithDescription("Последнее уведомление от iКЭДО"),
             new SlashCommandBuilder()
@@ -57,7 +60,7 @@ public class SlashCommandHandler
             //очищаются все команды и ставятся те команды, которые нужны
             await _client.BulkOverwriteGlobalApplicationCommandsAsync(applicationCommandProperties.ToArray());
         }
-        catch (ApplicationCommandException ex)
+        catch (HttpException ex)
         {
             var json = JsonConvert.SerializeObject(ex.Errors, Formatting.Indented);
             Console.WriteLine(json);
@@ -68,6 +71,9 @@ public class SlashCommandHandler
     {
         switch (command.Data.Name)
         {
+            case "help":
+                await HelpCommand(command);
+                break;
             case "last-notification":
                 await GetRequestCommand(command);
                 break;
@@ -109,6 +115,21 @@ public class SlashCommandHandler
             .WithColor(new Color(138, 106, 226))
             .WithCurrentTimestamp();
         await choice.RespondAsync(embed: embedBuilder.Build());
+    }
+    private async Task HelpCommand(SocketSlashCommand command)
+    {
+        string response = "";
+        foreach (RestGlobalCommand cmd in await _client.Rest.GetGlobalApplicationCommands())
+        {
+            response += $"/{cmd.Name} - {cmd.Description}\n";
+        }
+        var embedBuilder = new EmbedBuilder()
+            .WithAuthor("iКЭДО")
+            .WithTitle("Команды")
+            .WithDescription(response)
+            .WithColor(new Color(138, 106, 226))
+            .WithCurrentTimestamp();
+        await command.RespondAsync(embed: embedBuilder.Build());
     }
     //получения списка уведомлений для получения их последнего уведомления
     private async Task GetRequestCommand(SocketSlashCommand command)

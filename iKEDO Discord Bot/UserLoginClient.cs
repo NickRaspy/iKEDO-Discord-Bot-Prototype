@@ -1,13 +1,20 @@
-﻿using System.Text.Json;
+﻿using Discord;
+using Discord.Interactions;
+using Discord.Net;
+using Discord.WebSocket;
+using System.Reactive;
+using System.Text.Json;
 
 public class UserLoginClient
 {
     private readonly iKEDOClient _kedoclient;
+    private readonly DiscordSocketClient _client;
     public List<UserData> UserDatas;
-    public UserLoginClient(iKEDOClient kedoclient)
+    public UserLoginClient(iKEDOClient kedoclient, DiscordSocketClient client)
     {
         UserDatas = GetUserDatas();
         _kedoclient = kedoclient;
+        _client = client;
     }
     //регистрация пользователя
     public async Task<string> AddUser(ulong userID, string phoneNumber)
@@ -30,9 +37,11 @@ public class UserLoginClient
                 else
                 {
                     //новый пользователь
-                    UserDatas.Add(new UserData { UserID = userID, Phone = phoneNumber, Docs = new List<Documents>() });
+                    UserDatas.Add(new UserData { UserID = userID, Phone = phoneNumber, Docs = new List<Documents>(), GetNotificationPing = false });
                     SetUserDatas(UserDatas);
-                    response = "Вы успешно зарегистрированы!";
+                    response = "Вы успешно зарегистрированы!" +
+                        "\nРекомендую ознакомиться с доступными командами, использовав команду /help. Все последующие уведомления вы будете получать только после этой регистрации." +
+                        "\nНа данный момент автоматическая отправка уведомлений отключена.";
                 }
             }
             else
@@ -107,14 +116,30 @@ public class UserLoginClient
             }
             else
             {
-                UserDatas.Find(x => x.UserID == userID).GetNotificationPing = getPing;
                 if (getPing)
                 {
-                    response = "Вы включили автоматическое получение уведомления";
+                    bool canMessage = true;
+                    try
+                    {
+                        IUser user = await _client.GetUserAsync(userID);
+                        var message = await user.SendMessageAsync("Проверка отправки", allowedMentions: AllowedMentions.None); ;
+                        message.DeleteAsync();
+                    }
+                    catch (HttpException he) 
+                    {
+                        if(he.HttpCode == System.Net.HttpStatusCode.Forbidden) canMessage = false;
+                    }
+                    if (canMessage) 
+                    { 
+                        response = "Вы включили автоматическое получение уведомления";
+                        UserDatas.Find(x => x.UserID == userID).GetNotificationPing = getPing; 
+                    }
+                    else response = "К сожалению мы не можем вам отправить уведомления в личные сообщения.\nУбедитесь, что в настройках Discord в разделе Конфиденциальность у вас включена опция \"Разрешить личные сообщения от участников сервера\".";
                 }
                 else
                 {
                     response = "Вы отключили автоматическое получение уведомления";
+                    UserDatas.Find(x => x.UserID == userID).GetNotificationPing = getPing;
                 }
             }
             SetUserDatas(UserDatas);
