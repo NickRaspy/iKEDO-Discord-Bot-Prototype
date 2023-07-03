@@ -153,6 +153,12 @@ public class UserLoginClient
         UserDatas.Find(x => x.Phone == phone).Entities.Add(entity);
         SetUserDatas(UserDatas);
     }
+    public async Task<string> ClearEntities(ulong userid)
+    {
+        UserDatas.Find(x => x.UserID == userid).Entities.Clear();
+        SetUserDatas(UserDatas);
+        return "Очищено!";
+    }
     //получение данных пользователей бота
     public static List<UserData> GetUserDatas()
     {

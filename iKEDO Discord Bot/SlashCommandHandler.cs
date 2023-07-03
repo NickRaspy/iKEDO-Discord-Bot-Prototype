@@ -51,7 +51,10 @@ public class SlashCommandHandler
                 .AddChoice("отключить", 0)
                 .AddChoice("включить", 1)
                 .WithType(ApplicationCommandOptionType.Boolean)
-            )
+            ),
+            new SlashCommandBuilder()
+            .WithName("clear-notifications")
+            .WithDescription("Очистка всех имеющихся уведомлений, что у вас есть при вызове /last-notification")
         };
         //попытка забилдить
         try
@@ -88,6 +91,9 @@ public class SlashCommandHandler
                 break;
             case "get-notifications":
                 await SetNotificationsPingsCommand(command);
+                break;
+            case "clear-notifications":
+                await ClearNotificationsCommand(command);
                 break;
             default:
                 await command.RespondAsync($"You executed {command.Data.Name}");
@@ -152,7 +158,7 @@ public class SlashCommandHandler
                     .WithSelectMenu(menuBuilder);
                 await command.RespondAsync("Выберите объект, у которого вы хотите узнать последнее оповещение", components: componentBuilder.Build());
             }
-            else await command.RespondAsync("На данный момент у вас нет активных объектов (документов, вакансий и т.д.).\nP.S: если вы только начали пользоваться ботом, сведения об объектах вы будете получать, если добавите новый объект на iКЭДО уже после начала работы с ботом.");
+            else await command.RespondAsync("На данный момент у вас нет активных объектов (документов или новое рабочее место).\nP.S: если вы только начали пользоваться ботом, оповещения вы будете получать, если вы начнете пользоваться iКЭДО уже после начала работы с ботом.");
         }
         else await command.RespondAsync("Вы не зарегистрированы!");
     }
@@ -183,5 +189,9 @@ public class SlashCommandHandler
     private async Task SetNotificationsPingsCommand(SocketSlashCommand command)
     {
         await command.RespondAsync(await _userLoginClient.SetNotificationPings(command.User.Id, Convert.ToBoolean(command.Data.Options.First().Value)));
+    }
+    private async Task ClearNotificationsCommand(SocketSlashCommand command)
+    {
+        await command.RespondAsync(await _userLoginClient.ClearEntities(command.User.Id));
     }
 }

@@ -31,30 +31,6 @@ public class iKEDOClient
         var jsonResponse = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<List<EmployeeWorkplaces>>(jsonResponse);
     }
-    //GET-запрос вакансий
-    public async Task<List<JobTitles>> GetJobTitlesRequest()
-    {
-        HttpResponseMessage response = await _httpClient.GetAsync("administrative/JobTitles?Count=2000");
-        response.EnsureSuccessStatusCode();
-        var jsonResponse = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<List<JobTitles>>(jsonResponse);
-    }
-    //GET-запрос подразделений
-    public async Task<List<Subdivisions>> GetSubdivisionsRequest()
-    {
-        HttpResponseMessage response = await _httpClient.GetAsync("administrative/JobTitles?Count=2000");
-        response.EnsureSuccessStatusCode();
-        var jsonResponse = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<List<Subdivisions>>(jsonResponse);
-    }
-    //GET-запрос типов документа
-    public async Task<List<DocumentTypes>> GetDocumentTypesRequest()
-    {
-        HttpResponseMessage response = await _httpClient.GetAsync("docstorage/DocumentTypes?Count=2000");
-        response.EnsureSuccessStatusCode();
-        var jsonResponse = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<List<DocumentTypes>>(jsonResponse);
-    }
     //GET-запрос данных о документе
     public async Task<Documents> GetDocumentRequest(string documentID)
     {
@@ -137,8 +113,8 @@ public class EmployeeWorkplaces
     public string Id { get; set; }
     public string CreatorId { get; set; }
     public DateTime CreationTime { get; set; }
-    public List<Subdivisions> Subdivision { get; set; }
-    public List<JobTitles> JobTitle { get; set; } 
+    public Subdivisions Subdivision { get; set; }
+    public JobTitles JobTitle { get; set; } 
 }
 //данные о вакансии
 public class JobTitles
@@ -157,16 +133,4 @@ public class Subdivisions
     public string Name { get; set; }
 }
 //данные о типе документов
-public class DocumentTypes
-{
-    public string Id { get; set; }
-    public string CreatorId { get; set; }
-    public DateTime CreationTime { get; set; }
-    public string ShortName { get; set; }
-    public MinTrudDocumentTypes MinTrudDocumentType { get; set; }
-    public class MinTrudDocumentTypes
-    {
-        public string Name { get; set; }
-    }
-}
 
