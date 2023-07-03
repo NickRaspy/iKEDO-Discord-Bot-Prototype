@@ -1,10 +1,10 @@
 ﻿using System.Text.Json;
 using System.Net.Http.Headers;
+using System.Reflection.Metadata;
 
 public class iKEDOClient
 {
     private readonly HttpClient _httpClient;
-    public List<SystemEvents> events;
     public iKEDOClient()
     {
         _httpClient = httpClient(GetBearerToken());
@@ -16,12 +16,44 @@ public class iKEDOClient
         response.EnsureSuccessStatusCode();
     }
     //GET-запрос списка уведомлений
-    public async Task GetNotificationRequest()
+    public async Task<List<SystemEvents>> GetNotificationRequest()
     {
         HttpResponseMessage response = await _httpClient.GetAsync("notifications/SystemEvents?Offset=1000&Count=2000");
         response.EnsureSuccessStatusCode();
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        events = JsonSerializer.Deserialize<List<SystemEvents>>(jsonResponse);
+        return JsonSerializer.Deserialize<List<SystemEvents>>(jsonResponse);
+    }
+    //GET-запрос рабочих мест
+    public async Task<List<EmployeeWorkplaces>> GetEmployeeWorkplacesRequest()
+    {
+        HttpResponseMessage response = await _httpClient.GetAsync("administrative/Employees/EmployeeWorkplaces?offset=0&count=2000");
+        response.EnsureSuccessStatusCode();
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<List<EmployeeWorkplaces>>(jsonResponse);
+    }
+    //GET-запрос вакансий
+    public async Task<List<JobTitles>> GetJobTitlesRequest()
+    {
+        HttpResponseMessage response = await _httpClient.GetAsync("administrative/JobTitles?Count=2000");
+        response.EnsureSuccessStatusCode();
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<List<JobTitles>>(jsonResponse);
+    }
+    //GET-запрос подразделений
+    public async Task<List<Subdivisions>> GetSubdivisionsRequest()
+    {
+        HttpResponseMessage response = await _httpClient.GetAsync("administrative/JobTitles?Count=2000");
+        response.EnsureSuccessStatusCode();
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<List<Subdivisions>>(jsonResponse);
+    }
+    //GET-запрос типов документа
+    public async Task<List<DocumentTypes>> GetDocumentTypesRequest()
+    {
+        HttpResponseMessage response = await _httpClient.GetAsync("docstorage/DocumentTypes?Count=2000");
+        response.EnsureSuccessStatusCode();
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<List<DocumentTypes>>(jsonResponse);
     }
     //GET-запрос данных о документе
     public async Task<Documents> GetDocumentRequest(string documentID)
@@ -29,8 +61,7 @@ public class iKEDOClient
         HttpResponseMessage response = await _httpClient.GetAsync($"docstorage/Documents/{documentID}");
         response.EnsureSuccessStatusCode();
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        Documents dc = JsonSerializer.Deserialize<Documents>(jsonResponse);
-        return dc;
+        return JsonSerializer.Deserialize<Documents>(jsonResponse);
     }
     //GET-запрос данных о сотруднике (пользователе iКЭДО)
     public async Task<KEDOUser> GetEmployeeRequest(string kedouserID)
@@ -38,8 +69,7 @@ public class iKEDOClient
         HttpResponseMessage response = await _httpClient.GetAsync($"staff/Employees/{kedouserID}");
         response.EnsureSuccessStatusCode();
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        KEDOUser kuser = JsonSerializer.Deserialize<KEDOUser>(jsonResponse);
-        return kuser;
+        return JsonSerializer.Deserialize<KEDOUser>(jsonResponse);
     }
     //поиск пользователя по телефону среди списка всех сотрудников (пользователей iКЭДО)
     public async Task<bool> FindEmployeeByPhoneRequest(string phoneNumber)
@@ -100,5 +130,43 @@ public class Documents
     public DateTime CreationTime { get; set; }
     public string Id { get; set; }
     public string DocumentType { get; set; }
+}
+//данные о месте работы сотрудника
+public class EmployeeWorkplaces
+{
+    public string Id { get; set; }
+    public string CreatorId { get; set; }
+    public DateTime CreationTime { get; set; }
+    public List<Subdivisions> Subdivision { get; set; }
+    public List<JobTitles> JobTitle { get; set; } 
+}
+//данные о вакансии
+public class JobTitles
+{
+    public string Id { get; set; }
+    public string CreatorId { get; set; }
+    public DateTime CreationTime { get; set; }
+    public string Name { get; set; }
+}
+//данные о подразделении
+public class Subdivisions
+{
+    public string Id { get; set; }
+    public string CreatorId { get; set; }
+    public DateTime CreationTime { get; set; }
+    public string Name { get; set; }
+}
+//данные о типе документов
+public class DocumentTypes
+{
+    public string Id { get; set; }
+    public string CreatorId { get; set; }
+    public DateTime CreationTime { get; set; }
+    public string ShortName { get; set; }
+    public MinTrudDocumentTypes MinTrudDocumentType { get; set; }
+    public class MinTrudDocumentTypes
+    {
+        public string Name { get; set; }
+    }
 }
 

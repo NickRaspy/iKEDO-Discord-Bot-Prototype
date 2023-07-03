@@ -37,7 +37,7 @@ public class UserLoginClient
                 else
                 {
                     //новый пользователь
-                    UserDatas.Add(new UserData { UserID = userID, Phone = phoneNumber, Docs = new List<Documents>(), GetNotificationPing = false });
+                    UserDatas.Add(new UserData { UserID = userID, Phone = phoneNumber, Entities = new List<EntityDataSet>(), GetNotificationPing = false });
                     SetUserDatas(UserDatas);
                     response = "Вы успешно зарегистрированы!" +
                         "\nРекомендую ознакомиться с доступными командами, использовав команду /help. Все последующие уведомления вы будете получать только после этой регистрации." +
@@ -148,9 +148,9 @@ public class UserLoginClient
         return response;
     }
     //добавление документа, по которому можно будет сверять обновления, к пользователю
-    public async Task AddDocument(string phone, Documents document)
+    public async Task AddDocument(string phone, EntityDataSet entity)
     {
-        UserDatas.Find(x => x.Phone == phone).Docs.Add(document);
+        UserDatas.Find(x => x.Phone == phone).Entities.Add(entity);
         SetUserDatas(UserDatas);
     }
     //получение данных пользователей бота
@@ -178,6 +178,6 @@ public class UserData
 {
     public ulong UserID { get; set; }
     public string Phone { get; set; }
-    public List<Documents> Docs { get; set; }
+    public List<EntityDataSet> Entities { get; set; }
     public bool GetNotificationPing { get; set; }
 } 

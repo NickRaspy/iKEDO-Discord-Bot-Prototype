@@ -11,7 +11,7 @@ public class NotificationUpdater
     private readonly UserLoginClient _ulclient;
     private readonly iKEDOClient _kedoclient;
     private readonly DiscordSocketClient _client;
-    public LastDocumentNotification ldn;
+    public LastEntityNotification ldn;
     public NotificationUpdater(UserLoginClient ulclient, iKEDOClient kedoclient, DiscordSocketClient client)
     {
         _ulclient = ulclient;
@@ -23,25 +23,23 @@ public class NotificationUpdater
     public async Task UpdateNotification()
     {
         //проверка на наличие пользователей
-        if(_ulclient.UserDatas != null)
+        if (_ulclient.UserDatas != null)
         {
             //получение списка уведомлений
-            await _kedoclient.GetNotificationRequest();
+            List<SystemEvents> events = await _kedoclient.GetNotificationRequest();
             //проверка на обновление
-            if (ldn.DocumentID != _kedoclient.events.Last().EntityId || ldn.DocumentType != _kedoclient.events.Last().SystemEventType)
+            if (ldn.EntityId != events.Last().EntityId || ldn.EntityState != events.Last().SystemEventType)
             {
-                ldn.DocumentID = _kedoclient.events.Last().EntityId;
-                ldn.DocumentType = _kedoclient.events.Last().SystemEventType;
-                //сохранение последних данных уведомления в случае отключки бота
-                SetLDN(ldn);
-                //получение данных документа
-                Documents docs = await _kedoclient.GetDocumentRequest(ldn.DocumentID);
+                ldn.EntityId = events.Last().EntityId;
+                ldn.EntityState = events.Last().SystemEventType;
+                KEDOUser kuser = new KEDOUser();
+                EntityDataSet entity =await NewEntity(events.Last().EntityId, events.Last().SystemEventType, ldn.LastUserId);
                 //получение данных пользователя iКЭДО
-                KEDOUser kuser = await _kedoclient.GetEmployeeRequest(docs.CreatorId);
+                kuser = await _kedoclient.GetEmployeeRequest(entity.CreatorId);
                 //поиск зарегистрированного пользователя по номеру телефона
                 if (_ulclient.UserDatas.Contains(_ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber)))
                 {
-                    if(_ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber).GetNotificationPing)
+                    if (_ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber).GetNotificationPing)
                     {
                         ulong userID = _ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber).UserID;
                         //попытка отправить пользователю сообщение
@@ -53,7 +51,7 @@ public class NotificationUpdater
                             var embedBuilder = new EmbedBuilder()
                                 .WithAuthor("iКЭДО")
                                 .WithTitle("Вы получили уведомление!")
-                                .WithDescription($"{ldn.DocumentType}")
+                                .WithDescription($"{events.Last().SystemEventType}")
                                 .WithColor(Color.Blue)
                                 .WithCurrentTimestamp();
                             //отправка уведомления
@@ -64,48 +62,100 @@ public class NotificationUpdater
                         {
                             Console.WriteLine($"Пользователю с ID {userID} невозможно отправить уведомление");
                         }
+                        ldn.LastUserId = userID;
                     }
                     //проверка на отсутствие документа
-                    if (_ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber).Docs.Find(x => x.Id == ldn.DocumentID) == null)
+                    if (_ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber).Entities.Find(x => x.Id == events.Last().EntityId) == null)
                     {
-                        await _ulclient.AddDocument(kuser.Contacts[0].PhoneNumber, docs);
+                        await _ulclient.AddDocument(kuser.Contacts[0].PhoneNumber, entity);
                     }
-                    //если документ будет обнаружен - сменится его состояние
-                    else
-                    {
-                        _ulclient.UserDatas.Find(x => x.Phone == kuser.Contacts[0].PhoneNumber).Docs.Find(x => x.Id == ldn.DocumentID).DocumentType = ldn.DocumentType;
-                    }
+                    //сохранение последних данных уведомления в случае отключки бота
+                    SetLDN(ldn);
                 }
             }
         }
         //задержка, можно изменить по своему усмотрению
-        await Task.Delay(1000);
+        await Task.Delay(1);
         //рекурсия
         await UpdateNotification();
     }
     //получение данных последнего зафиксированного до обновления уведомления
-    static LastDocumentNotification GetLDN()
+    static LastEntityNotification GetLDN()
     {
-        LastDocumentNotification ldn = new();
+        LastEntityNotification ldn = new();
         string path = AppDomain.CurrentDomain.BaseDirectory + "/lastdocumentnotification.json";
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
-            ldn = JsonSerializer.Deserialize<LastDocumentNotification>(json);
+            ldn = JsonSerializer.Deserialize<LastEntityNotification>(json);
         }
         return ldn;
     }
     //установка новых данных уведомления
-    static void SetLDN(LastDocumentNotification ldn)
+    static void SetLDN(LastEntityNotification ldn)
     {
         string path = AppDomain.CurrentDomain.BaseDirectory + "/lastdocumentnotification.json";
         string json = JsonSerializer.Serialize(ldn);
         File.WriteAllText(path, json);
     }
-    //данные последнего уведомления
-    public class LastDocumentNotification
+    //получение нужных данных исходя из EventType
+    private async Task<EntityDataSet> NewEntity(string id, string type, ulong lastUserId)
     {
-        public string DocumentID { get; set; }
-        public string DocumentType { get; set; }
+        switch (type)
+        {
+            case "DocumentOnRoute":
+            case "DocumentSigned":
+            case "DocumentRejected":
+            case "DocumentWithdrawn":
+            case "DocumentMarkedAsCompleted":
+                Documents docs = await _kedoclient.GetDocumentRequest(id);
+                return new EntityDataSet {Id = id, CreatorId = docs.CreatorId, DateTime = docs.CreationTime, Name = docs.DocumentType, State = type, Type = docs.Name };
+            case "EmployeeWorkplaceAdded":
+            case "EmployeeWorkplaceUpdated":
+                List<EmployeeWorkplaces> ew = await _kedoclient.GetEmployeeWorkplacesRequest();
+                return new EntityDataSet {Id = id, CreatorId = ew.Find(x => x.Id == id).CreatorId, DateTime = ew.Find(x => x.Id == id).CreationTime, Name = ew.Find(x => x.Id == id).Subdivision[0].Name + " " + ew.Find(x => x.Id == id).JobTitle[0].Name, State = type, Type = "Рабочее место сотрудника"};
+            case "JobTitleAdded":
+            case "JobTitleUpdated":
+                List<JobTitles> jt = await _kedoclient.GetJobTitlesRequest();
+                return new EntityDataSet {Id = id, CreatorId = jt.Find(x => x.Id == id).CreatorId, DateTime = jt.Find(x => x.Id == id).CreationTime, Name = jt.Find(x => x.Id == id).Name, State = type, Type = "Новая вакансия" };
+            case "JobTitleDeleted":
+                List<EntityDataSet> jteds = _ulclient.UserDatas.Find(x => x.UserID == lastUserId).Entities;
+                jteds.Find(x => x.Id == id).State = type;
+                return jteds.Find(x => x.Id == id);
+            case "SubdivisionAdded":
+            case "SubdivisionUpdated":
+                List<Subdivisions> subs = await _kedoclient.GetSubdivisionsRequest();
+                return new EntityDataSet {Id = id, CreatorId = subs.Find(x => x.Id == id).CreatorId, DateTime = subs.Find(x => x.Id == id).CreationTime, Name = subs.Find(x => x.Id == id).Name, State = type, Type = "Новое подразделение" };
+            case "SubdivisionDeleted":
+                List<EntityDataSet> seds = _ulclient.UserDatas.Find(x => x.UserID == lastUserId).Entities;
+                seds.Find(x => x.Id == id).State = type;
+                return seds.Find(x => x.Id == id);
+            case "DocumentTypeCreated":
+            case "DocumentTypeUpdated":
+                List<DocumentTypes> dt = await _kedoclient.GetDocumentTypesRequest();
+                return new EntityDataSet { Id = id, CreatorId = dt.Find(x => x.Id == id).CreatorId, DateTime = dt.Find(x => x.Id == id).CreationTime, Name = dt.Find(x => x.Id == id).ShortName + $"({dt.Find(x => x.Id == id).MinTrudDocumentType.Name})", State = type, Type = "Новый тип документов" };
+            case "DocumentTypeDeleted":
+                List<EntityDataSet> dteds = _ulclient.UserDatas.Find(x => x.UserID == lastUserId).Entities;
+                dteds.Find(x => x.Id == id).State = type;
+                return dteds.Find(x => x.Id == id);
+            default:
+                return null;
+        }
     }
+    //данные последнего уведомления
+    public class LastEntityNotification
+    {
+        public string EntityId { get; set; }
+        public string EntityState { get; set; }
+        public ulong LastUserId { get; set; }
+    }
+}
+public class EntityDataSet
+{
+    public string Id { get; set; }
+    public string CreatorId { get; set; }
+    public string Name { get; set; }
+    public string State { get; set; }
+    public string Type { get; set; }
+    public DateTime DateTime { get; set; }
 }

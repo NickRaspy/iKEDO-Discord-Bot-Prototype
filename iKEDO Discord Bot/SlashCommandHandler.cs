@@ -99,7 +99,7 @@ public class SlashCommandHandler
     {
         switch (choice.Data.CustomId)
         {
-            case "doc-choose":
+            case "obj-choose":
                 SendChosenNotification(choice);
                 break;
         }
@@ -136,23 +136,23 @@ public class SlashCommandHandler
     {
         if (await _userLoginClient.FindUser(command.User.Id))
         {
-            if (_userLoginClient.UserDatas.Find(x => x.UserID == command.User.Id).Docs != null)
+            if (_userLoginClient.UserDatas.Find(x => x.UserID == command.User.Id).Entities.Count != 0)
             {
-                await _kedoClient.GetNotificationRequest();
+                List<SystemEvents> se = await _kedoClient.GetNotificationRequest();
                 var menuBuilder = new SelectMenuBuilder()
-                    .WithPlaceholder("Выберите документ")
-                    .WithCustomId("doc-choose")
+                    .WithPlaceholder("Выберите объект")
+                    .WithCustomId("obj-choose")
                     .WithMinValues(1)
                     .WithMaxValues(1);
-                foreach (Documents docs in _userLoginClient.UserDatas.Find(x => x.UserID == command.User.Id).Docs)
+                foreach (EntityDataSet entity in _userLoginClient.UserDatas.Find(x => x.UserID == command.User.Id).Entities)
                 {
-                    menuBuilder.AddOption($"{docs.DocumentType} {docs.CreationTime}", $"Последнее уведомление по этому документу:\n{_kedoClient.events.FindAll(x => x.EntityId == docs.Id).Last().SystemEventType}\nв: {_kedoClient.events.FindAll(x => x.EntityId == docs.Id).Last().EventTime}", $"{docs.Name}");
+                    menuBuilder.AddOption($"{entity.Name} {entity.DateTime}", $"Последнее уведомление по этому объекту:\n{se.FindAll(x => x.EntityId == entity.Id).Last().SystemEventType}\nв: {se.FindAll(x => x.EntityId == entity.Id).Last().EventTime}", $"{entity.Type}");
                 }
                 var componentBuilder = new ComponentBuilder()
                     .WithSelectMenu(menuBuilder);
-                await command.RespondAsync("Выберите документ, у которого вы хотите узнать последнее оповещение", components: componentBuilder.Build());
+                await command.RespondAsync("Выберите объект, у которого вы хотите узнать последнее оповещение", components: componentBuilder.Build());
             }
-            else await command.RespondAsync("На данный момент у вас нет активных документов.\nP.S: если вы только начали пользоваться ботом, сведения о документах вы будете получать, если добавите новый документ на iКЭДО уже после начала работы с ботом.");
+            else await command.RespondAsync("На данный момент у вас нет активных объектов (документов, вакансий и т.д.).\nP.S: если вы только начали пользоваться ботом, сведения об объектах вы будете получать, если добавите новый объект на iКЭДО уже после начала работы с ботом.");
         }
         else await command.RespondAsync("Вы не зарегистрированы!");
     }
